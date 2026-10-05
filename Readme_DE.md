@@ -38,8 +38,8 @@ llm-assisted-xai-explanations/
 ├── results/            # Pipeline-Ausgaben, Judge-Scores, Evaluierungsplots, CSV-Zusammenfassungen
 ├── notebooks/          # 18 Jupyter Notebooks (01-06; 04Ga-Gf global, 04La-Ld lokal)
 ├── analyses/           # GT-Verifikationsreport, Fehleranalyse nach Formtyp
-├── planning/           # Revisionsplan, Korrekturenlog, Limitationen
 ├── prompts/            # Prompt-Vorlagen (lokal + global + Judge)
+├── tests/              # pytest-Suite (vor jedem kostenpflichtigen Lauf)
 └── utils/              # Python-Hilfsmodule (data, models, explanations, llm, tools,
                         #   global_feature, global_whole, groundtruth, rubric, global_eval)
 ```
@@ -543,8 +543,6 @@ Der Prompt-Regressionstest (`test_prompt_golden.py`) friert die SHA-256-Hashes u
 Er ist ein hartes Gate: ein frischer Generierungslauf darf erst starten, wenn alle Tests grün sind.
 
 Der README-Konsistenztest gehört zu diesem Gate: jede numerische Tabelle in beiden READMEs ist in `<!-- AUTO-TABLE:name -->`-Sentinels gefasst und wird von `utils/update_readme_tables.py` aus `results/` regeneriert. Eine Zahl, die von ihrem Artefakt abweicht, lässt die Suite rot werden, genau das verhindert, dass wieder zwei Judge-Generationen in einem Dokument stehen.
-
-**Test-Status:** `pytest tests/` → **358 passed** (2026-09-30, Python 3.13, Commit `TBD`, nach dem finalen Commit den Hash hier eintragen).
 
 **Wenn ein Prompt absichtlich verbessert wird:**
 1. Prompt-Datei bearbeiten.
