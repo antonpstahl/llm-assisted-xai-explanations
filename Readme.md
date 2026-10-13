@@ -1,16 +1,19 @@
 # LLM-Assisted Explanation of Machine Learning Model Outputs: The Effect of XAI Method and Handover Format on Explanation Quality
 
-Comparing how the **choice of XAI method** and the **handover format** to a large language model (LLM) affect the quality of automatically generated, natural-language explanations of ML predictions.
+Comparing how the **choice of XAI method** and the **handover format** to a large language model (LLM) affect the quality of automatically generated, natural-language explanations of how an ML model uses its features (global explanations).
 
-This repository accompanies a research seminar paper (*Belegarbeit*) at **TU Dresden**, supervised by **Prof. Dr. Patrick Zschech** (Chair of Business Information Systems, esp. Intelligent Systems and Services).
+This repository accompanies a term paper (*Belegarbeit*) at **TU Dresden**, supervised by **Prof. Dr. Patrick Zschech** (Chair of Business Information Systems, esp. Intelligent Systems and Services). The submitted version of the code and results is tagged `v1.0-submission`.
 
 ## Key findings
 
-1. **LLMs over-describe negligible features.** Judge faithfulness drops from 5.00 for monotonic features to 3.85 for near-flat ones. Every handover format over-attributes there, including the deterministic template.
-2. **For a single feature, the handover format makes no detectable difference.** On the primary judge no pairwise comparison is significant (all `p_adj ≥ 0.38`). A deterministic template is not detectably worse than any LLM format.
-3. **One generation is not a measurement.** Re-drawing the same cells gives a within-cell spread about 1.8× the difference between formats, and resampling produces all six possible format rankings.
-4. **For the whole model, pull ≈ numeric push.** Tool use and JSON handover lie within 0.05 of each other, and every stated feature rank is correct (90 / 90).
-5. **LLM judges disagree.** Cross-vendor agreement on faithfulness is moderate at best (Krippendorff's α 0.48 per feature, 0.30 whole-model), and the two vendors order the conditions differently. Comparisons are therefore reported within one judge.
+Each finding names the instrument it rests on: the deterministic rubric, or the LLM judges from two vendors.
+
+1. **One generation is not a measurement.** At the default sampling temperature (1.0), resampling three draws per cell produces all six possible orderings of the three LLM handovers on the per-feature task (Anthropic judge). Only `json` in last place is stable, so a single draw cannot show which format leads.
+2. **A beeswarm image reads about as well as the same numbers, but carries no shape.** On the whole-model task and on the rubric, the information-matched pair scores 0.917 / 0.972 (image) against 1.000 / 0.972 (numbers) on EBM / XGB. A single beeswarm loses the shape detail that nine per-feature plots carry (structure 0.56–0.61 against 0.75–0.92).
+3. **Pull ≈ numeric push.** On the whole-model task and on the rubric, tool use and JSON handover lie within 0.05 of each other on both XAI models. Every stated feature rank is correct (90 / 90).
+4. **The template comparison depends on the judge.** On the Anthropic judge no per-feature pairwise comparison is significant (all `p_adj ≥ 0.38`), partly because that judge penalizes the template's phrasing of categorical features. On the OpenAI judge the template leads, but only template–`json` survives Holm correction (`p_adj = 0.030`), and that result rests on a single verdict.
+5. **LLM judges disagree.** Cross-vendor agreement on faithfulness is weak (Krippendorff's α 0.48 per feature, 0.30 whole-model), and the two vendors order the conditions differently. A single LLM judge is not a sufficient faithfulness check.
+6. **Images are far cheaper for dense plots.** On the XGB arm the image handover needs 1,640 input tokens per feature instead of 164,360 for the raw JSON scatter, and neither judge detects a faithfulness difference between the two.
 
 **Stage codes used below:**
 - **G0:** global explanation artefacts (curves, beeswarms)
@@ -38,9 +41,11 @@ The project runs on **two tracks**, and the **global track is the main one**:
 | **Local** (comparison) | why **one instance** got its prediction | `04La-04Ld`, `05`, `06` | 20 explanations per pipeline | comparison basis, kept reproducible |
 
 The global track scores every description against a **structured ground truth** (18
-references, all 18 mechanically verified) with two independent scorers: a deterministic
+references, all 18 mechanically verified) with two scorers: a deterministic
 keyword **rubric** and a reference-based **LLM judge**, the latter run across **two
-vendors** (Anthropic Opus + OpenAI) as a robustness check.
+vendors** (Anthropic `claude-opus-4-8` and OpenAI `gpt-4o`) as a robustness check.
+Both scorers are bound to the same ground truth, so their agreement is internal
+consistency, not independent validation.
 
 ## Repository structure
 
@@ -112,9 +117,9 @@ The unit of explanation is not a single prediction but the **model's use of a fe
 | Tool Use | 0.880        | 4.44         | 3.67    | 5.00      | 3.83            |
 <!-- /AUTO-TABLE:global-feature -->
 
-On the Anthropic judge `vision` leads nominally at 4.61 and the template is second at 4.50, with no pairwise comparison significant (Wilcoxon signed-rank on `(feature, xai_model)` pairs, Holm-corrected, all `p_adj ≥ 0.38`; five of six Cliff's *d* negligible, `json`–`vision` small at δ = −0.17). On the OpenAI judge the template leads all three LLM formats and template–`json` reaches `p_adj = 0.030` with δ = 0.57, but the crossing depends on a single verdict (0.067 if `json_ebm_weathersit` is scored 5) and does not survive correction across both judges (0.061). Because the template shares its shape classifier with the ground truth, it hits the shape type *by construction*. It is therefore a strict **reference floor** rather than an independent competitor. Rubric and judge correlate at Spearman 0.458 (n = 72, p < 0.001): internal consistency between two ground-truth-bound scorers, not independent criterion validity.
+On the Anthropic judge `vision` leads nominally at 4.61 and the template is second at 4.50, with no pairwise comparison significant (Wilcoxon signed-rank on `(feature, xai_model)` pairs, Holm-corrected, all `p_adj ≥ 0.38`; five of six Cliff's *d* negligible, `json`–`vision` small at δ = −0.17). On the OpenAI judge the template leads all three LLM formats and template–`json` reaches `p_adj = 0.030` with δ = 0.57, but the crossing depends on a single verdict (0.067 if `json_ebm_weathersit` is scored 5) and does not survive correction across both judges (0.061). Because the template shares its shape classifier with the ground truth, it hits the shape type *by construction*. It is therefore an **oracle-informed baseline** rather than an independent competitor. Rubric and judge correlate at Spearman 0.458 (n = 72, p < 0.001): internal consistency between two ground-truth-bound scorers, not independent criterion validity.
 
-The stable finding is not a modality ranking but a **failure mode**:
+Stratified by the ground-truth shape, **near-flat features** are where the descriptions lose the most points:
 
 <!-- AUTO-TABLE:global-formtype -->
 | Shape type    | n  | Judge Faith. | Clarity | Complete. |
@@ -125,7 +130,7 @@ The stable finding is not a modality ranking but a **failure mode**:
 | monotonic     | 8  | 5.00         | 3.88    | 5.00      |
 <!-- /AUTO-TABLE:global-formtype -->
 
-**Over-attribution of negligible features** is the consistent error, converging across rubric, judge and the qualitative analysis (`analyses/error_examples_by_formtype.md`). The stratum sizes are too small for tests, so these are descriptive means.
+The deterministic template does better on the near-flat stratum on the rubric and on both judges, but mainly because it shares the classifier with the ground truth (an oracle advantage) and because the per-feature prompt lacks the "negligible" framing rule that the judge rubric checks. Excerpts are in `analyses/error_examples_by_formtype.md`. The strata are too small for tests (n = 5 per format on the near-flat stratum), so these are descriptive means.
 
 **G2b, the whole model per call** (`04Ge`, exploratory): five conditions × 2 XAI models. Each answer must emit a rigid `[FEATURE: name] [EFFECT] … [IMPORTANCE] …` block per feature; `split_whole_model_record` cuts it into **90** per-feature records the same rubric and judge score unchanged. A feature the answer omits counts as a miss, which makes **coverage** directly measurable.
 
@@ -153,7 +158,7 @@ Two axes this opens that the per-feature track cannot:
   "Pull ≈ numeric push" is therefore the honest reading at whole-model complexity; treat "pull architecture" as a design expectation rather than a headline result. (`utils.global_eval.axis2_mechanism_pairwise`)
 - **Representation**: `vision_all` states all 9 ranks on both XAI arms, all correct (`fair_total` 0.926 on EBM, 0.889 on XGB). The answers quote the importance printed in each plot title (XGB `holiday`: *"least important feature in the model (importance 0.012)"*). On the XGB arm the plotted vertical range would mislead as a rank proxy (Spearman ρ = 0.23 against ground-truth rank; `holiday` has the second-widest scatter but rank 9); the answers follow the printed value instead. Where a rank is stated it is exactly correct in every whole-model condition (**90 / 90** total, across the five conditions on both XAI arms). The remaining gap between `vision_all` and `json_all` on XGB sits in the structure sub-score (0.722 vs. 0.889), not in the rank column.
 
-> **Beeswarm readability.** `json_beeswarm` and `vision_beeswarm` are information-matched (rank + colour direction + rough spread, **no** per-value curve), so the difference isolates the pure modality effect. On the fair aggregate the image scores essentially as well as the equivalent numbers (`json_beeswarm` 1.000 / 0.972 vs. `vision_beeswarm` 0.917 / 0.972).
+> **Beeswarm readability.** `json_beeswarm` and `vision_beeswarm` are information-matched (rank + colour direction + rough spread, **no** per-value curve), so the difference isolates the modality effect. On the rubric's fair aggregate the image scores essentially as well as the equivalent numbers (`json_beeswarm` 1.000 / 0.972 vs. `vision_beeswarm` 0.917 / 0.972, one whole-model draw per XAI arm). The two judges split on this pair, so it is a rubric-only statement.
 
 **Process metrics (G2a).** Straight off the persisted generation records:
 
@@ -176,17 +181,17 @@ Two things to read here. First, **the modality comparison is not information-mat
 | Judge faithfulness (Anthropic) | **0.604** | 0.333 | **1.8×** |
 | Judge faithfulness (OpenAI) | 0.553 | 1.278 | 0.4× |
 
-A single Anthropic-judge draw moves the score by nearly twice the entire modality difference. Resampling one draw per cell 5,000 times and reporting ties explicitly, **all six possible modality orderings occur**; among the 63 % of iterations with no tie between the three LLM formats, `vision` leads in 54 %, `tooluse` in 39 %, `json` in 7 %, and the modal strict ordering `vision > tooluse > json` holds in 42 % of untied iterations; the mean best-to-worst spread per draw is 0.409. A second Monte Carlo puts this on the full mean-of-18 scale: holding the ten non-redrawn cells fixed at their observed draw and resampling only the eight redrawn cells per format gives a per-format resampled-mean standard deviation of 0.08–0.10, about a quarter of the mean-of-18 modality span in the G2a table above.
+The ratios compare a single-cell scale with a mean-of-18 scale, so they only show the size mismatch. The Monte Carlo carries the interpretation. Resampling one draw per cell 5,000 times and reporting ties explicitly, **all six possible modality orderings occur**; among the 63 % of iterations with no tie between the three LLM formats, `vision` leads in 54 %, `tooluse` in 39 %, `json` in 7 %, and the modal strict ordering `vision > tooluse > json` holds in 42 % of untied iterations; the mean best-to-worst spread per draw is 0.409. A second Monte Carlo puts this on the full mean-of-18 scale: holding the ten non-redrawn cells fixed at their observed draw and resampling only the eight redrawn cells per format gives a per-format resampled-mean standard deviation of 0.08–0.10, about a quarter of the mean-of-18 modality span in the G2a table above.
 
 Two consequences follow.
 - **The null finding is strengthened on the Anthropic judge.** "No detectable modality difference" holds for a harder reason than small effects: a single draw cannot resolve which of `vision` and `tooluse` comes out on top.
 - **Any claim resting on the *nominal top* of the ordering is an artefact** of the one sample drawn. Only `json` at the bottom is stable (last in 89 % of full-18 iterations).
 
-The ceiling control behaves as it should: `hr` shows sd = 0.000 under both the rubric and the Anthropic judge, so the variance sits entirely in the near-flat stratum. One caveat on the judge side: the OpenAI judge shows sd = 0.385 even on those control cells, where the rubric and the Anthropic judge both show zero. So part of the measured spread is judge-side.
+The ceiling control behaves as it should: `hr` shows sd = 0.000 under both the rubric and the Anthropic judge, so the variance sits in the low-importance cells. One caveat on the judge side: the OpenAI judge shows sd = 0.385 even on those control cells, where the rubric and the Anthropic judge both show zero. So part of the measured spread is judge-side.
 
-This is also the case a rubric-only study would have missed: 0.089 reads as reassuringly small, and only the judge reveals the scale.
+The rubric shows the same fragility on its own scale: its within-cell sd (0.089) is 3.3× the span between the three LLM formats (0.027).
 
-**Judge robustness.** Both tracks are scored by two vendors under an identical rubric. Cross-vendor Krippendorff's α: per-feature Faithfulness 0.481 / Clarity 0.435 / Completeness n/a (both judges give 5 on all 72 records, the criterion is at ceiling, so α is undefined, not zero); whole-model 0.295 / 0.396 / 0.638. Reliability is **moderate at best**. OpenAI scores Faithfulness systematically stricter on the whole-model track (about 1.0 point on average, 1.17 on `vision_all`), and the two vendors order the conditions differently (the beeswarm pair flips, and `json_all` drops from second to fourth on OpenAI). Report comparisons **within one vendor**, not absolute levels.
+**Judge robustness.** Both tracks are scored by two vendors under an identical rubric. Cross-vendor Krippendorff's α: per-feature Faithfulness 0.481 / Clarity 0.435 / Completeness n/a (both judges give 5 on all 72 records, the criterion is at ceiling, so α is undefined, not zero); whole-model 0.295 / 0.396 / 0.638. Reliability is **weak**: every value is below the 0.667 threshold usually cited for tentative reliability. OpenAI scores Faithfulness systematically stricter on the whole-model track (about 1.0 point on average, 1.17 on `vision_all`), and the two vendors order the conditions differently (the beeswarm pair flips, and `json_all` drops from second to fourth on OpenAI). Report comparisons **within one vendor**, not absolute levels.
 
 ---
 
@@ -246,8 +251,9 @@ The 30 lowest faithfulness explanations were hand coded into an error taxonomy, 
 # dependencies (Python 3.13.1)
 pip install -r requirements.txt
 
-# API key
-echo "ANTHROPIC_API_KEY=sk..." > .env
+# API keys (generation and Anthropic judge, plus the OpenAI cross-vendor judge)
+echo "ANTHROPIC_API_KEY=sk-ant-..." > .env
+echo "OPENAI_API_KEY=sk-..." >> .env
 ```
 
 Paths are relative to the project root; reproducibility is fixed via `RANDOM_STATE = 42`.
@@ -277,10 +283,10 @@ Parameters are centralised in `utils/llm.py`.
 |---|---|---|---|
 | Global per-feature generation (NB 04Gb / 04Gc / 04Gd) | `claude-sonnet-4-6` | 2048 | default (1.0) |
 | Global whole-model generation (NB 04Ge) | `claude-sonnet-4-6` | **16384** | default (1.0) |
-| Global judge, primary (NB 05G / 05Gb) | `claude-opus-4-8` | 900 | 0.0 |
-| Global judge, cross vendor (NB 05G / 05Gb) | `gpt-4o-mini` (OpenAI) | 900 | default |
+| Global judge, Anthropic (NB 05G / 05Gb) | `claude-opus-4-8` | 900 | API default (the model rejects `temperature`) |
+| Global judge, OpenAI cross vendor (NB 05G / 05Gb) | `gpt-4o` | 900 | 0.0 |
 | Local explanation generation (NB 04Lb / 04Lc / 04Ld) | `claude-sonnet-4-6` | 2048 | default (1.0) |
-| Local judge, primary (NB 05) | `claude-opus-4-8` | 900 | 0.0 |
+| Local judge, primary (NB 05) | `claude-opus-4-8` | 900 | API default (the model rejects `temperature`) |
 | Local judge, cross vendor (NB 05) | `gpt-4o-mini` (OpenAI) | 900 | default |
 | Ichmoukhamedov metrics (NB 06) | `claude-sonnet-4-6` | 700 | default (1.0) |
 
@@ -296,10 +302,10 @@ pytest tests/test_prompt_golden.py -v   # prompt regression only
 ```
 
 The suite covers sampling determinism, generation-loop persistence/resume, judge-parsing robustness, statistical functions, denormalization consistency, README consistency, and **prompt-fix regression**. For the global track it additionally covers the constructed EBM beeswarm, the global curve artefacts, ground-truth derivation, the deterministic rubric, the whole-model payloads and the forced-schema splitter, and the **output-token truncation guards** (a record that hit the ceiling must never be persisted or scored).
-The prompt regression test (`test_prompt_golden.py`) freezes the SHA-256 hashes and key constraint phrases of all three pipeline prompts, including the sign- and rank-fidelity rules for `yr=0`.
+The prompt regression test (`test_prompt_golden.py`) freezes the SHA-256 hashes of the four local-track prompt files (the three pipeline prompts and `judge_system.md`) and key constraint phrases, including the sign- and rank-fidelity rules for `yr=0`. The global-track prompts are protected by byte-identity checks on the shared prompt core (`tests/test_global_feature.py`, `tests/test_global_whole.py`).
 It is a hard gate: a fresh generation run must not start until all tests are green.
 
-The README consistency test is part of that gate: every numeric table in both READMEs is wrapped in `<!-- AUTO-TABLE:name -->` sentinels and regenerated from `results/` by `utils/update_readme_tables.py`. A number that drifts from its artefact fails the suite, which is what keeps two judge generations from being mixed in one document.
+The README consistency test is part of that gate: every numeric table in this README is wrapped in `<!-- AUTO-TABLE:name -->` sentinels and regenerated from `results/` by `utils/update_readme_tables.py`. A number that drifts from its artefact fails the suite, which is what keeps two judge generations from being mixed in one document.
 
 **If a prompt is intentionally improved:**
 1. Edit the prompt file.
@@ -315,7 +321,7 @@ The README consistency test is part of that gate: every numeric table in both RE
 
 ## Context
 
-Research seminar paper (*Belegarbeit*), Information Systems, TU Dresden, supervised by Prof. Dr. Patrick Zschech. A follow-up Diplom thesis (master's-thesis equivalent) extends this work.
+Term paper (*Belegarbeit*), Information Systems, TU Dresden, supervised by Prof. Dr. Patrick Zschech. A follow-up Diplom thesis (master's-thesis equivalent) extends this work.
 
 ## License and data
 

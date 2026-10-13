@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate README result tables from results/ artefacts and update the READMEs in-place.
+Generate README result tables from results/ artefacts and update the README in-place.
 
 Each numeric table is wrapped with sentinel HTML comments in the Markdown source:
 
@@ -58,33 +58,11 @@ def _padded_table(headers: list[str], rows: list[list[str]]) -> str:
     return "\n".join([_row(headers), sep] + [_row(r) for r in rows])
 
 
-def _minimal_table(headers: list[str], rows: list[list[str]]) -> str:
-    """Build a minimal Markdown table (German style, no column padding)."""
-    header_row = "| " + " | ".join(headers) + " |"
-    sep = "|" + "|".join(["---"] * len(headers)) + "|"
-    data_rows = ["| " + " | ".join(row) + " |" for row in rows]
-    return "\n".join([header_row, sep] + data_rows)
-
-
 # --- number formatters ---
-
-def _de(v: float, decimals: int = 2) -> str:
-    """German locale float: comma decimal separator."""
-    return f"{v:.{decimals}f}".replace(".", ",")
-
 
 def _round_half_up(v: float) -> int:
     """Round-half-up (avoids banker's rounding for .5 values)."""
     return int(v + 0.5) if v >= 0 else -int(-v + 0.5)
-
-
-def _de_int(v: float) -> str:
-    """German locale integer: space as thousands separator, round-half-up."""
-    n = _round_half_up(v)
-    if n >= 1000:
-        high, low = divmod(n, 1000)
-        return f"{high} {low:03d}"
-    return str(n)
 
 
 # --- data loaders ---
@@ -326,129 +304,6 @@ def gen_global_whole_en() -> str:
     return _padded_table(headers, _global_whole_rows(lambda v: f"{v:.2f}"))
 
 
-# --- German table generators (for Readme_DE.md) ---
-
-def gen_model_comparison_de() -> str:
-    """Full model comparison in German locale (4 rows: Squared Error + Poisson-Log)."""
-    sq = _load_metrics("squared_error")["metrics"]
-    pl = _load_metrics("poisson_log")["metrics"]
-    headers = ["Option", "Modell", "RMSE", "MAE", "R²", "Poisson-Dev.", "Neg. Vorhersagen"]
-    rows = [
-        [
-            "Squared Error", "XGB",
-            _de(sq["xgb"]["rmse"]), _de(sq["xgb"]["mae"]),
-            _de(sq["xgb"]["r2"], 3), _de(sq["xgb"]["poisson_deviance"]),
-            str(int(sq["xgb"]["n_negative_predictions"])),
-        ],
-        [
-            "Squared Error", "EBM",
-            _de(sq["ebm"]["rmse"]), _de(sq["ebm"]["mae"]),
-            _de(sq["ebm"]["r2"], 3), _de(sq["ebm"]["poisson_deviance"]),
-            str(int(sq["ebm"]["n_negative_predictions"])),
-        ],
-        [
-            "**Poisson-Log**", "**XGB**",
-            f"**{_de(pl['xgb']['rmse'])}**", f"**{_de(pl['xgb']['mae'])}**",
-            f"**{_de(pl['xgb']['r2'], 3)}**", f"**{_de(pl['xgb']['poisson_deviance'])}**",
-            f"**{int(pl['xgb']['n_negative_predictions'])}**",
-        ],
-        [
-            "**Poisson-Log**", "**EBM**",
-            f"**{_de(pl['ebm']['rmse'])}**", f"**{_de(pl['ebm']['mae'])}**",
-            f"**{_de(pl['ebm']['r2'], 3)}**", f"**{_de(pl['ebm']['poisson_deviance'])}**",
-            f"**{int(pl['ebm']['n_negative_predictions'])}**",
-        ],
-    ]
-    return _minimal_table(headers, rows)
-
-
-def gen_pipeline_quant_de() -> str:
-    """Pipeline quantitative summary in German locale (cost/latency only, 4 rows)."""
-    data = _load_eval_summary()
-    headers = [
-        "Pipeline", "Ø Wörter", "Ø Input-Tokens¹",
-        "Ø Output-Tokens", "Gesamtkosten (20 Calls)", "Ø Latenz",
-    ]
-    rows = []
-    for pl in _PIPELINE_ORDER:
-        r = data[pl]
-        tok_in = _round_half_up(float(r["tokens_in"]))
-        tok_out = _round_half_up(float(r["tokens_out"]))
-        cost = float(r["cost_usd"])
-        rows.append([
-            pl,
-            str(_round_half_up(float(r["words"]))),
-            _de_int(tok_in),
-            _de_int(tok_out),
-            f"{_de(cost)} USD",
-            f"{_de(float(r['time_s']), 1)} s",
-        ])
-    return _minimal_table(headers, rows)
-
-
-def gen_judge_scores_de() -> str:
-    """LLM judge scores in German locale (4 rows)."""
-    data = _load_eval_summary()
-    headers = ["Pipeline", "Faithfulness", "Clarity", "Completeness"]
-    rows = []
-    for pl in _PIPELINE_ORDER:
-        r = data[pl]
-        rows.append([
-            pl,
-            _de(float(r["Judge_Faith"])),
-            _de(float(r["Judge_Clarity"])),
-            _de(float(r["Judge_Complete"])),
-        ])
-    return _minimal_table(headers, rows)
-
-
-def gen_faithfulness_de() -> str:
-    """Ichmoukhamedov faithfulness in German locale (3 rows)."""
-    data = _load_faithfulness()
-    headers = ["Pipeline", "RA (Rank)", "SA (Sign)", "VA (Value)"]
-    rows = []
-    for pl in _FAITH_ORDER:
-        r = data[pl]
-        rows.append([
-            pl,
-            _de(float(r["RA"]), 3),
-            _de(float(r["SA"]), 3),
-            _de(float(r["VA"]), 3),
-        ])
-    return _minimal_table(headers, rows)
-
-
-def gen_global_feature_de() -> str:
-    """G2a per-Feature-Tabelle, deutsches Zahlenformat."""
-    headers = ["Form", "Rubric gesamt", "Judge Faithfulness", "Clarity", "Completeness",
-               "Faithfulness (OpenAI)"]
-    return _minimal_table(headers, _global_feature_rows(_de, lambda v: _de(v, 3)))
-
-
-def gen_global_formtype_de() -> str:
-    """G2a Judge-Faithfulness nach GT-Formtyp, deutsches Zahlenformat."""
-    strata = _group_means(_load_judge_records("global_judge"), "form_type")
-    headers = ["Formtyp", "n", "Judge Faithfulness", "Clarity", "Completeness"]
-    rows = [[ft, str(strata[ft]["n"]), _de(strata[ft]["faithfulness"]),
-             _de(strata[ft]["clarity"]), _de(strata[ft]["completeness"])]
-            for ft in _FORM_TYPE_ORDER if ft in strata]
-    return _minimal_table(headers, rows)
-
-
-def gen_global_whole_de() -> str:
-    """G2b Whole-Model-Tabelle, deutsches Zahlenformat."""
-    headers = ["Bedingung", "Coverage (ebm \u00b7 xgb)", "Judge Faithfulness",
-               "Faithfulness (OpenAI)", "Completeness"]
-    return _minimal_table(headers, _global_whole_rows(_de))
-
-
-def gen_global_process_de() -> str:
-    """G2a Prozesskennzahlen je Form, deutsches Zahlenformat."""
-    headers = ["Form", "Ø Input-Tokens", "Ø Output-Tokens", "Ø Latenz", "Ø Tool-Calls"]
-    return _minimal_table(headers, _global_process_rows(
-        _de_int, lambda v: _de(v, 1)))
-
-
 # --- README updater ---
 
 _SENTINEL_RE = re.compile(
@@ -494,14 +349,6 @@ _TABLES: list[tuple[Path, str, object]] = [
     # local n=20 track (comparison basis)
     (ROOT / "Readme.md",    "pipeline-eval",      gen_pipeline_eval_en),
     (ROOT / "Readme.md",    "faithfulness",       gen_faithfulness_en),
-    (ROOT / "Readme_DE.md", "model-comparison-de", gen_model_comparison_de),
-    (ROOT / "Readme_DE.md", "global-feature-de",  gen_global_feature_de),
-    (ROOT / "Readme_DE.md", "global-formtype-de", gen_global_formtype_de),
-    (ROOT / "Readme_DE.md", "global-whole-de",    gen_global_whole_de),
-    (ROOT / "Readme_DE.md", "global-process-de",  gen_global_process_de),
-    (ROOT / "Readme_DE.md", "pipeline-quant-de",  gen_pipeline_quant_de),
-    (ROOT / "Readme_DE.md", "judge-scores-de",    gen_judge_scores_de),
-    (ROOT / "Readme_DE.md", "faithfulness-de",    gen_faithfulness_de),
 ]
 
 
