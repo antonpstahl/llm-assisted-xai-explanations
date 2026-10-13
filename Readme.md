@@ -4,6 +4,8 @@ Comparing how the **choice of XAI method** and the **handover format** to a larg
 
 This repository accompanies a term paper (*Belegarbeit*) at **TU Dresden**, supervised by **Prof. Dr. Patrick Zschech** (Chair of Business Information Systems, esp. Intelligent Systems and Services).
 
+**Paper:** [AntonPStahl_Belegarbeit_LLM-Assisted_Explanation_of_ML_Model_Outputs.pdf](paper/AntonPStahl_Belegarbeit_LLM-Assisted_Explanation_of_ML_Model_Outputs.pdf), with its bibliography in [`paper/literature.bib`](paper/literature.bib). The evaluation numbers of Sections 5.3 to 5.7 are recomputed from `results/` by `analyses/numbers_ledger.py` (see [`analyses/README.md`](analyses/README.md)).
+
 ## Key findings
 
 Each finding names the instrument it rests on: the deterministic rubric, or the LLM judges from two vendors.
@@ -51,6 +53,7 @@ consistency, not independent validation.
 
 ```
 .
+├── paper/           # The submitted paper (PDF) and its bibliography (literature.bib)
 ├── data/            # Raw data and prepared train/test splits
 ├── models/          # Trained models (6 .pkl files)
 ├── explanations/    # Local SHAP/EBM explanations + global curves, beeswarms, ground truth

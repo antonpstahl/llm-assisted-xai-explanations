@@ -1,0 +1,626 @@
+% =====================================================================
+% literature.bib — Belegarbeit Anton Stahl
+% LLM-gestützte Erklärung von ML-Modellausgaben
+%
+% Zitierstil: \bibliographystyle{agsm} (Harvard) + natbib + BibTeX
+% Compiler:   pdflatex -> bibtex -> pdflatex -> pdflatex
+%
+% Konventionen:
+%   - Zitiert wird die GELESENE Fassung (Preprint-Regel, Arbeitsstand §2.4).
+%     Als arXiv-Preprints geführt sind alle Eintr\"age mit
+%     howpublished = {arXiv preprint ...} (Stand 13.10.2026: 21 Eintr\"age).
+%   - Akronyme sind in {} geschützt, damit agsm sie nicht kleinschreibt.
+%   - Umlaute als LaTeX-Escapes, nicht als UTF-8 (BibTeX ist nicht Unicode-fest).
+%
+% Stand: 28.09.2026 — alle Angaben am PDF bzw. am arXiv-Schema verifiziert.
+% =====================================================================
+
+
+% ---------------------------------------------------------------------
+% A · Direkte Vorbilder: LLMs beschreiben Modelle
+% ---------------------------------------------------------------------
+
+@misc{bordt2024datascience,
+  author       = {Bordt, Sebastian and Lengerich, Ben and Nori, Harsha and Caruana, Rich},
+  title        = {Data Science with {LLMs} and Interpretable Models},
+  year         = {2024},
+  howpublished = {arXiv preprint arXiv:2402.14474},
+  note         = {{XAI4Sci}: Explainable Machine Learning for Sciences, {AAAI} 2024 Workshop},
+  doi          = {10.48550/arXiv.2402.14474}
+}
+
+@misc{lengerich2023glassbox,
+  author       = {Lengerich, Benjamin J. and Bordt, Sebastian and Nori, Harsha
+                  and Nunnally, Mark E. and Aphinyanaphongs, Yin and Kellis, Manolis
+                  and Caruana, Rich},
+  title        = {{LLMs} Understand Glass-Box Models, Discover Surprises, and Suggest Repairs},
+  year         = {2023},
+  howpublished = {arXiv preprint arXiv:2308.01157},
+  doi          = {10.48550/arXiv.2308.01157}
+}
+
+@article{slack2023talktomodel,
+  author  = {Slack, Dylan and Krishna, Satyapriya and Lakkaraju, Himabindu and Singh, Sameer},
+  title   = {Explaining Machine Learning Models with Interactive Natural Language
+             Conversations Using {TalkToModel}},
+  journal = {Nature Machine Intelligence},
+  year    = {2023},
+  volume  = {5},
+  number  = {8},
+  pages   = {873--883},
+  doi     = {10.1038/s42256-023-00692-8}
+}
+
+@article{martens2025story,
+  author  = {Martens, David and Hinns, James and Dams, Camille and Vergouwen, Mark
+             and Evgeniou, Theodoros},
+  title   = {Tell Me a Story! {N}arrative-Driven {XAI} with Large Language Models},
+  journal = {Decision Support Systems},
+  year    = {2025},
+  volume  = {191},
+  pages   = {114402},
+  doi     = {10.1016/j.dss.2025.114402}
+}
+
+@misc{ichmoukhamedov2024story,
+  author       = {Ichmoukhamedov, Timour and Hinns, James and Martens, David},
+  title        = {How Good Is My Story? {T}owards Quantitative Metrics for Evaluating
+                  {LLM}-Generated {XAI} Narratives},
+  year         = {2024},
+  howpublished = {arXiv preprint arXiv:2412.10220},
+  doi          = {10.48550/arXiv.2412.10220}
+}
+
+@misc{zytek2024llmsforxai,
+  author       = {Zytek, Alexandra and Pid{\`o}, Sara and Veeramachaneni, Kalyan},
+  title        = {{LLMs} for {XAI}: Future Directions for Explaining Explanations},
+  year         = {2024},
+  howpublished = {arXiv preprint arXiv:2405.06064},
+  note         = {{CHI} 2024 Workshop on Human-Centered Explainable {AI}},
+  doi          = {10.48550/arXiv.2405.06064}
+}
+
+@article{singh2023augmenting,
+  author  = {Singh, Chandan and Askari, Armin and Caruana, Rich and Gao, Jianfeng},
+  title   = {Augmenting Interpretable Models with Large Language Models During Training},
+  journal = {Nature Communications},
+  year    = {2023},
+  volume  = {14},
+  pages   = {7913},
+  doi     = {10.1038/s41467-023-43713-1}
+}
+
+@misc{lukassen2026stories,
+  author       = {Lukassen, Fabian and Herrmann, Jan and Weisser, Christoph
+                  and Saefken, Benjamin and Kneib, Thomas},
+  title        = {From {XAI} to Stories: A Factorial Study of {LLM}-Generated
+                  Explanation Quality},
+  year         = {2026},
+  howpublished = {arXiv preprint arXiv:2601.02224},
+  doi          = {10.48550/arXiv.2601.02224}
+}
+
+
+% ---------------------------------------------------------------------
+% B · WI-/IS-Anschluss
+% ---------------------------------------------------------------------
+
+@inproceedings{kruschel2026conversational,
+  author    = {Kruschel, Sven and Rosenberger, Julian and Bohlen, Lasse
+               and Kraus, Mathias and Zschech, Patrick},
+  title     = {Can Conversational {XAI} Improve User Performance?
+               {A}n Experimental Study},
+  booktitle = {Proceedings of the 34th European Conference on Information
+               Systems ({ECIS} 2026)},
+  year      = {2026},
+  note      = {Short Paper}
+}
+
+@inproceedings{spitzer2024deepglasses,
+  author    = {Spitzer, Philipp and Celis, Sebastian and Martin, Dominik
+               and K{\"u}hl, Niklas and Satzger, Gerhard},
+  title     = {Looking Through the Deep Glasses: How Large Language Models
+               Enhance Explainability of Deep Learning Models},
+  booktitle = {Proceedings of Mensch und Computer 2024 ({MuC} '24)},
+  year      = {2024},
+  pages     = {566--570},
+  address   = {Karlsruhe, Germany},
+  publisher = {{ACM}},
+  doi       = {10.1145/3670653.3677488}
+}
+
+@inproceedings{jeck2025tellme,
+  author    = {Jeck, Jakub and Leiser, Florian and H{\"u}sges, Anne and Sunyaev, Ali},
+  title     = {{TELL-ME}: Toward Personalized Explanations of Large Language Models},
+  booktitle = {Extended Abstracts of the 2025 {CHI} Conference on Human Factors
+               in Computing Systems ({CHI EA} '25)},
+  year      = {2025},
+  address   = {Yokohama, Japan},
+  publisher = {{ACM}},
+  doi       = {10.1145/3706599.3719982}
+}
+
+@inproceedings{bokstaller2025enhancing,
+  author    = {Bokstaller, Jonas and Altheimer, Julia and Dormehl, Julian
+               and Buss, Alina and Wiltfang, Jasper and Schneider, Johannes
+               and R{\"o}glinger, Maximilian},
+  title     = {Enhancing {ML} Model Interpretability: Leveraging Fine-Tuned
+               Large Language Models for Better Understanding of {AI}},
+  booktitle = {Proceedings of the 33rd European Conference on Information
+               Systems ({ECIS} 2025)},
+  year      = {2025}
+}
+
+@article{brasse2023xaiis,
+  author  = {Brasse, Julia and Broder, Hanna Rebecca and F{\"o}rster, Maximilian
+             and Klier, Mathias and Sigler, Irina},
+  title   = {Explainable Artificial Intelligence in Information Systems:
+             A Review of the Status Quo and Future Research Directions},
+  journal = {Electronic Markets},
+  year    = {2023},
+  volume  = {33},
+  pages   = {26},
+  doi     = {10.1007/s12525-023-00644-5}
+}
+
+@article{bauer2023explained,
+  author  = {Bauer, Kevin and von Zahn, Moritz and Hinz, Oliver},
+  title   = {{Expl(AI)ned}: The Impact of Explainable Artificial Intelligence
+             on Users' Information Processing},
+  journal = {Information Systems Research},
+  year    = {2023},
+  volume  = {34},
+  number  = {4},
+  pages   = {1582--1602},
+  doi     = {10.1287/isre.2023.1199}
+}
+
+
+% ---------------------------------------------------------------------
+% C · XAI-Grundlagen: Methoden und Modelle
+% ---------------------------------------------------------------------
+
+@inproceedings{lundberg2017shap,
+  author    = {Lundberg, Scott M. and Lee, Su-In},
+  title     = {A Unified Approach to Interpreting Model Predictions},
+  booktitle = {Advances in Neural Information Processing Systems 30 ({NIPS} 2017)},
+  year      = {2017},
+  note      = {Cited from arXiv:1705.07874v2},
+  doi       = {10.48550/arXiv.1705.07874}
+}
+
+% PREPRINT bewusst: die Beeswarm-/Summary-Plot-Semantik wird auf S. 8-9
+% dieser Fassung referenziert; die Nat. Mach. Intell.-Version (2020) hat
+% eine andere Paginierung. Jahreszahl im Text daher 2019.
+@misc{lundberg2019trees,
+  author       = {Lundberg, Scott M. and Erion, Gabriel and Chen, Hugh
+                  and DeGrave, Alex and Prutkin, Jordan M. and Nair, Bala
+                  and Katz, Ronit and Himmelfarb, Jonathan and Bansal, Nisha
+                  and Lee, Su-In},
+  title        = {Explainable {AI} for Trees: From Local Explanations to
+                  Global Understanding},
+  year         = {2019},
+  howpublished = {arXiv preprint arXiv:1905.04610},
+  doi          = {10.48550/arXiv.1905.04610}
+}
+
+@inproceedings{lou2013ga2m,
+  author    = {Lou, Yin and Caruana, Rich and Gehrke, Johannes and Hooker, Giles},
+  title     = {Accurate Intelligible Models with Pairwise Interactions},
+  booktitle = {Proceedings of the 19th {ACM SIGKDD} International Conference
+               on Knowledge Discovery and Data Mining ({KDD} '13)},
+  year      = {2013},
+  pages     = {623--631},
+  publisher = {{ACM}},
+  doi       = {10.1145/2487575.2487579}
+}
+
+@misc{nori2019interpretml,
+  author       = {Nori, Harsha and Jenkins, Samuel and Koch, Paul and Caruana, Rich},
+  title        = {{InterpretML}: A Unified Framework for Machine Learning Interpretability},
+  year         = {2019},
+  howpublished = {arXiv preprint arXiv:1909.09223},
+  doi          = {10.48550/arXiv.1909.09223}
+}
+
+@inproceedings{chen2016xgboost,
+  author    = {Chen, Tianqi and Guestrin, Carlos},
+  title     = {{XGBoost}: A Scalable Tree Boosting System},
+  booktitle = {Proceedings of the 22nd {ACM SIGKDD} International Conference
+               on Knowledge Discovery and Data Mining ({KDD} '16)},
+  year      = {2016},
+  pages     = {785--794},
+  publisher = {{ACM}},
+  doi       = {10.1145/2939672.2939785}
+}
+
+% PREPRINT: im Workspace liegt arXiv:1811.10154v3. Die Journalfassung ist
+% Nat. Mach. Intell. 1, 206-215 (2019), DOI 10.1038/s42256-019-0048-x.
+@misc{rudin2019stop,
+  author       = {Rudin, Cynthia},
+  title        = {Stop Explaining Black Box Machine Learning Models for High
+                  Stakes Decisions and Use Interpretable Models Instead},
+  year         = {2019},
+  howpublished = {arXiv preprint arXiv:1811.10154},
+  note         = {Published in Nature Machine Intelligence 1, pp. 206--215},
+  doi          = {10.48550/arXiv.1811.10154}
+}
+
+@article{friedman2001greedy,
+  author  = {Friedman, Jerome H.},
+  title   = {Greedy Function Approximation: A Gradient Boosting Machine},
+  journal = {The Annals of Statistics},
+  year    = {2001},
+  volume  = {29},
+  number  = {5},
+  pages   = {1189--1232},
+  doi     = {10.1214/aos/1013203451}
+}
+
+% PREPRINT: im Workspace liegt arXiv:1612.08468v2 (2019). Die Journalfassung
+% ist JRSS-B 82(4), 1059-1086 (2020). Jahr im Text konsistent halten!
+@misc{apley2019ale,
+  author       = {Apley, Daniel W. and Zhu, Jingyu},
+  title        = {Visualizing the Effects of Predictor Variables in Black Box
+                  Supervised Learning Models},
+  year         = {2019},
+  howpublished = {arXiv preprint arXiv:1612.08468},
+  note         = {Published in Journal of the Royal Statistical Society: Series B 82(4),
+                  pp. 1059--1086},
+  doi          = {10.48550/arXiv.1612.08468}
+}
+
+% Online-Buch, nicht als PDF beziehbar. 3. Auflage = die online gelesene Fassung.
+% Zitierform und ISBN nach Kap. 36 "Citing this Book". URL erreichbar und
+% 3. Auflage online, geprueft am 13.10.2026. ZUGRIFFSDATUM VOR ABGABE AKTUALISIEREN.
+@book{molnar2025interpretable,
+  author    = {Molnar, Christoph},
+  title     = {Interpretable Machine Learning: A Guide for Making Black Box
+               Models Explainable},
+  year      = {2025},
+  edition   = {3rd},
+  publisher = {Independently published},
+  isbn      = {978-3-911578-03-5},
+  note      = {Available at \url{https://christophm.github.io/interpretable-ml-book/}
+               [Accessed: 13 October 2026]}
+}
+
+@article{arrieta2020xai,
+  author  = {Barredo Arrieta, Alejandro and D{\'i}az-Rodr{\'i}guez, Natalia
+             and Del Ser, Javier and Bennetot, Adrien and Tabik, Siham
+             and Barbado, Alberto and Garcia, Salvador and Gil-Lopez, Sergio
+             and Molina, Daniel and Benjamins, Richard and Chatila, Raja
+             and Herrera, Francisco},
+  title   = {Explainable Artificial Intelligence ({XAI}): Concepts, Taxonomies,
+             Opportunities and Challenges Toward Responsible {AI}},
+  journal = {Information Fusion},
+  year    = {2020},
+  volume  = {58},
+  pages   = {82--115},
+  doi     = {10.1016/j.inffus.2019.12.012}
+}
+
+@inproceedings{ribeiro2016lime,
+  author    = {Ribeiro, Marco Tulio and Singh, Sameer and Guestrin, Carlos},
+  title     = {``{W}hy Should {I} Trust You?'': {E}xplaining the Predictions of
+               Any Classifier},
+  booktitle = {Proceedings of the 22nd {ACM SIGKDD} International Conference
+               on Knowledge Discovery and Data Mining ({KDD} '16)},
+  year      = {2016},
+  pages     = {1135--1144},
+  publisher = {{ACM}},
+  doi       = {10.1145/2939672.2939778}
+}
+
+% Machbarkeitsbeleg für den konstruierten EBM-Beeswarm (Fig. 13).
+% ABGRENZUNG: dort SHAP ÜBER die EBM (post-hoc), hier die exakten Termbeiträge.
+@misc{hsiao2026ebm,
+  author       = {Hsiao, Cheng-Hsi and Kumar, Krishna and Rathje, Ellen M.},
+  title        = {Domain-Informed Explainable Boosting Machines for Trustworthy
+                  Lateral Spread Predictions},
+  year         = {2026},
+  howpublished = {arXiv preprint arXiv:2603.17175},
+  doi          = {10.48550/arXiv.2603.17175}
+}
+
+
+% ---------------------------------------------------------------------
+% D · Evaluationsmethodik und Messinstrument
+% ---------------------------------------------------------------------
+
+@misc{zheng2023judging,
+  author       = {Zheng, Lianmin and Chiang, Wei-Lin and Sheng, Ying
+                  and Zhuang, Siyuan and Wu, Zhanghao and Zhuang, Yonghao
+                  and Lin, Zi and Li, Zhuohan and Li, Dacheng and Xing, Eric P.
+                  and Zhang, Hao and Gonzalez, Joseph E. and Stoica, Ion},
+  title        = {Judging {LLM}-as-a-Judge with {MT-Bench} and {Chatbot Arena}},
+  year         = {2023},
+  howpublished = {arXiv preprint arXiv:2306.05685},
+  note         = {Published in Advances in Neural Information Processing Systems 36},
+  doi          = {10.48550/arXiv.2306.05685}
+}
+
+% PREPRINT bewusst: aus dieser Fassung stammt das im Judge-Prompt umgesetzte
+% Verfahren (CoT-Evaluationsschritte, dann Score). temperature = 0 nur in der
+% GPT-3.5-Variante, die GPT-4-Variante nutzt n = 20, temperature = 1 (S. 4).
+@misc{liu2023geval,
+  author       = {Liu, Yang and Iter, Dan and Xu, Yichong and Wang, Shuohang
+                  and Xu, Ruochen and Zhu, Chenguang},
+  title        = {{G-Eval}: {NLG} Evaluation Using {GPT-4} with Better Human Alignment},
+  year         = {2023},
+  howpublished = {arXiv preprint arXiv:2303.16634},
+  note         = {Published in Proceedings of {EMNLP} 2023},
+  doi          = {10.48550/arXiv.2303.16634}
+}
+
+@misc{panickssery2024selfpreference,
+  author       = {Panickssery, Arjun and Bowman, Samuel R. and Feng, Shi},
+  title        = {{LLM} Evaluators Recognize and Favor Their Own Generations},
+  year         = {2024},
+  howpublished = {arXiv preprint arXiv:2404.13076},
+  doi          = {10.48550/arXiv.2404.13076}
+}
+
+@article{hayes2007alpha,
+  author  = {Hayes, Andrew F. and Krippendorff, Klaus},
+  title   = {Answering the Call for a Standard Reliability Measure for Coding Data},
+  journal = {Communication Methods and Measures},
+  year    = {2007},
+  volume  = {1},
+  number  = {1},
+  pages   = {77--89},
+  doi     = {10.1080/19312450709336664}
+}
+
+@article{cliff1993dominance,
+  author  = {Cliff, Norman},
+  title   = {Dominance Statistics: Ordinal Analyses to Answer Ordinal Questions},
+  journal = {Psychological Bulletin},
+  year    = {1993},
+  volume  = {114},
+  number  = {3},
+  pages   = {494--509},
+  doi     = {10.1037/0033-2909.114.3.494}
+}
+
+@inproceedings{romano2006ordinal,
+  author    = {Romano, Jeanine and Kromrey, Jeffrey D. and Coraggio, Jesse
+               and Skowronek, Jeff},
+  title     = {Appropriate Statistics for Ordinal Level Data: Should We Really
+               Be Using t-test and {Cohen's} d for Evaluating Group Differences
+               on the {NSSE} and Other Surveys?},
+  booktitle = {Annual Meeting of the Florida Association of Institutional
+               Research ({FAIR})},
+  year      = {2006},
+  address   = {Cocoa Beach, FL, USA},
+  note      = {Conference presentation}
+}
+
+@article{holm1979sequential,
+  author  = {Holm, Sture},
+  title   = {A Simple Sequentially Rejective Multiple Test Procedure},
+  journal = {Scandinavian Journal of Statistics},
+  year    = {1979},
+  volume  = {6},
+  number  = {2},
+  pages   = {65--70}
+}
+
+@inproceedings{maynez2020faithfulness,
+  author    = {Maynez, Joshua and Narayan, Shashi and Bohnet, Bernd
+               and McDonald, Ryan},
+  title     = {On Faithfulness and Factuality in Abstractive Summarization},
+  booktitle = {Proceedings of the 58th Annual Meeting of the Association for
+               Computational Linguistics ({ACL} 2020)},
+  year      = {2020},
+  pages     = {1906--1919},
+  doi       = {10.18653/v1/2020.acl-main.173}
+}
+
+% PREPRINT: im Workspace liegt arXiv:2202.03629v7 (Juli 2024, 59 S., 13 Autoren,
+% erweitert um Abschnitte zu VLM- und LLM-Halluzination). Die ACM-CSUR-Fassung
+% 55(12), 1-38 (2023) hat nur 10 Autoren (Crossref, 13.10.2026). Preprint-Regel §2.4.
+@misc{ji2024hallucination,
+  author       = {Ji, Ziwei and Lee, Nayeon and Frieske, Rita and Yu, Tiezheng
+                  and Su, Dan and Xu, Yan and Ishii, Etsuko and Bang, Yejin
+                  and Chen, Delong and Dai, Wenliang and Chan, Ho Shu
+                  and Madotto, Andrea and Fung, Pascale},
+  title        = {Survey of Hallucination in Natural Language Generation},
+  year         = {2024},
+  howpublished = {arXiv preprint arXiv:2202.03629},
+  note         = {Extended version (v7) of the article published in {ACM} Computing
+                  Surveys 55(12), pp. 1--38},
+  doi          = {10.48550/arXiv.2202.03629}
+}
+
+
+% ---------------------------------------------------------------------
+% E · Chart-Verständnis multimodaler LLMs
+% ---------------------------------------------------------------------
+
+% PREPRINT: im Workspace arXiv:2203.10244v1. ACL-Fassung: Findings of ACL 2022.
+@misc{masry2022chartqa,
+  author       = {Masry, Ahmed and Long, Do Xuan and Tan, Jia Qing
+                  and Joty, Shafiq and Hoque, Enamul},
+  title        = {{ChartQA}: A Benchmark for Question Answering About Charts
+                  with Visual and Logical Reasoning},
+  year         = {2022},
+  howpublished = {arXiv preprint arXiv:2203.10244},
+  note         = {Published in Findings of the Association for Computational
+                  Linguistics: {ACL} 2022},
+  doi          = {10.48550/arXiv.2203.10244}
+}
+
+@misc{wang2024charxiv,
+  author       = {Wang, Zirui and Xia, Mengzhou and He, Luxi and Chen, Howard
+                  and Liu, Yitao and Zhu, Richard and Liang, Kaiqu and Wu, Xindi
+                  and Liu, Haotian and Malladi, Sadhika and Chevalier, Alexis
+                  and Arora, Sanjeev and Chen, Danqi},
+  title        = {{CharXiv}: Charting Gaps in Realistic Chart Understanding
+                  in Multimodal {LLMs}},
+  year         = {2024},
+  howpublished = {arXiv preprint arXiv:2406.18521},
+  doi          = {10.48550/arXiv.2406.18521}
+}
+
+% PREPRINT: im Workspace arXiv:2203.06486v3. ACL-Fassung: ACL 2022 (Long Papers).
+@misc{kantharaj2022charttotext,
+  author       = {Kantharaj, Shankar and Leong, Rixie Tiffany Ko and Lin, Xiang
+                  and Masry, Ahmed and Thakkar, Megh and Hoque, Enamul
+                  and Joty, Shafiq},
+  title        = {{Chart-to-Text}: A Large-Scale Benchmark for Chart Summarization},
+  year         = {2022},
+  howpublished = {arXiv preprint arXiv:2203.06486},
+  note         = {Published in Proceedings of {ACL} 2022 (Long Papers)},
+  doi          = {10.48550/arXiv.2203.06486}
+}
+
+@inproceedings{kaur2020interpreting,
+  author    = {Kaur, Harmanpreet and Nori, Harsha and Jenkins, Samuel
+               and Caruana, Rich and Wallach, Hanna and Wortman Vaughan, Jennifer},
+  title     = {Interpreting Interpretability: Understanding Data Scientists' Use
+               of Interpretability Tools for Machine Learning},
+  booktitle = {Proceedings of the 2020 {CHI} Conference on Human Factors in
+               Computing Systems ({CHI} '20)},
+  year      = {2020},
+  pages     = {1--14},
+  address   = {Honolulu, {HI}, {USA}},
+  publisher = {{ACM}},
+  doi       = {10.1145/3313831.3376219}
+}
+
+
+% ---------------------------------------------------------------------
+% F · Prompting
+% ---------------------------------------------------------------------
+
+@inproceedings{wei2022cot,
+  author    = {Wei, Jason and Wang, Xuezhi and Schuurmans, Dale and Bosma, Maarten
+               and Ichter, Brian and Xia, Fei and Chi, Ed H. and Le, Quoc V.
+               and Zhou, Denny},
+  title     = {Chain-of-Thought Prompting Elicits Reasoning in Large Language Models},
+  booktitle = {Advances in Neural Information Processing Systems 35 ({NeurIPS} 2022)},
+  year      = {2022},
+  doi       = {10.48550/arXiv.2201.11903}
+}
+
+@inproceedings{yao2023react,
+  author    = {Yao, Shunyu and Zhao, Jeffrey and Yu, Dian and Du, Nan
+               and Shafran, Izhak and Narasimhan, Karthik and Cao, Yuan},
+  title     = {{ReAct}: Synergizing Reasoning and Acting in Language Models},
+  booktitle = {Proceedings of the 11th International Conference on Learning
+               Representations ({ICLR} 2023)},
+  year      = {2023},
+  doi       = {10.48550/arXiv.2210.03629}
+}
+
+@misc{schulhoff2025promptreport,
+  author       = {Schulhoff, Sander and Ilie, Michael and Balepur, Nishant
+                  and Kahadze, Konstantine and Liu, Amanda and Si, Chenglei
+                  and Li, Yinheng and Gupta, Aayush and Han, HyoJung
+                  and Schulhoff, Sevien and Dulepet, Pranav Sandeep
+                  and Vidyadhara, Saurav and Ki, Dayeon and Agrawal, Sweta
+                  and Pham, Chau and Kroiz, Gerson and Li, Feileen
+                  and Tao, Hudson and Srivastava, Ashay and Da Costa, Hevander
+                  and Gupta, Saloni and Rogers, Megan L. and Goncearenco, Inna
+                  and Sarli, Giuseppe and Galynker, Igor and Peskoff, Denis
+                  and Carpuat, Marine and White, Jules and Anadkat, Shyamal
+                  and Hoyle, Alexander and Resnik, Philip},
+  title        = {The {Prompt Report}: A Systematic Survey of Prompt Engineering
+                  Techniques},
+  year         = {2025},
+  howpublished = {arXiv preprint arXiv:2406.06608},
+  doi          = {10.48550/arXiv.2406.06608}
+}
+
+
+% ---------------------------------------------------------------------
+% G · Methodischer Rahmen (DSR) und Datensatz
+% ---------------------------------------------------------------------
+
+@article{hevner2004dsr,
+  author  = {Hevner, Alan R. and March, Salvatore T. and Park, Jinsoo and Ram, Sudha},
+  title   = {Design Science in Information Systems Research},
+  journal = {{MIS} Quarterly},
+  year    = {2004},
+  volume  = {28},
+  number  = {1},
+  pages   = {75--105},
+  doi     = {10.2307/25148625}
+}
+
+@article{peffers2007dsrm,
+  author  = {Peffers, Ken and Tuunanen, Tuure and Rothenberger, Marcus A.
+             and Chatterjee, Samir},
+  title   = {A Design Science Research Methodology for Information Systems Research},
+  journal = {Journal of Management Information Systems},
+  year    = {2007},
+  volume  = {24},
+  number  = {3},
+  pages   = {45--77},
+  doi     = {10.2753/MIS0742-1222240302}
+}
+
+@article{gregor2013positioning,
+  author  = {Gregor, Shirley and Hevner, Alan R.},
+  title   = {Positioning and Presenting Design Science Research for Maximum Impact},
+  journal = {{MIS} Quarterly},
+  year    = {2013},
+  volume  = {37},
+  number  = {2},
+  pages   = {337--355},
+  doi     = {10.25300/MISQ/2013/37.2.01}
+}
+
+@article{fanaee2014bikesharing,
+  author  = {Fanaee-T, Hadi and Gama, Jo{\~a}o},
+  title   = {Event Labeling Combining Ensemble Detectors and Background Knowledge},
+  journal = {Progress in Artificial Intelligence},
+  year    = {2014},
+  volume  = {2},
+  number  = {2--3},
+  pages   = {113--127},
+  doi     = {10.1007/s13748-013-0040-3}
+}
+
+
+% ---------------------------------------------------------------------
+% H · Regulatorischer Rahmen
+% ---------------------------------------------------------------------
+
+@misc{euaiact2024,
+  author       = {{European Union}},
+  title        = {{Regulation (EU) 2024/1689 of the European Parliament and of the
+                  Council of 13 June 2024 Laying Down Harmonised Rules on Artificial
+                  Intelligence (Artificial Intelligence Act)}},
+  year         = {2024},
+  howpublished = {Official Journal of the European Union, {OJ} L, 2024/1689, 12.07.2024.
+                  \url{https://eur-lex.europa.eu/eli/reg/2024/1689/oj}},
+  note         = {{CELEX}: 32024R1689 [Accessed: 9 September 2026]}
+}
+
+
+% ---------------------------------------------------------------------
+% I · Erg\"anzungen zur Runde 2 (2026)
+% ---------------------------------------------------------------------
+
+@misc{he2026agentic,
+  author       = {He, Yifan and Martens, David},
+  title        = {An Agentic Approach to Generating {XAI}-Narratives},
+  year         = {2026},
+  howpublished = {arXiv preprint arXiv:2603.20003},
+  doi          = {10.48550/arXiv.2603.20003}
+}
+
+@misc{lukassen2026quality,
+  author       = {Lukassen, Fabian and Herrmann, Jan and Weisser, Christoph
+                  and Silbersdorff, Alexander and Saefken, Benjamin and Kneib, Thomas},
+  title        = {Quality Without Usefulness: {LLM}-Generated {XAI} Narratives as
+                  Trust Heuristics Rather Than Decision Aids},
+  year         = {2026},
+  howpublished = {arXiv preprint arXiv:2605.26770},
+  doi          = {10.48550/arXiv.2605.26770}
+}
+
+
+% =====================================================================

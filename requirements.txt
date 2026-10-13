@@ -1,31 +1,28 @@
-# Requirements - XAI Stahl SoSe26
+# Requirements for llm-assisted-xai-explanations
 # Python 3.13.1
 #
 # Install: pip install -r requirements.txt
-#
-# Optional (Notebook 08 - Ichmoukhamedov-Metriken mit LLM-Embedding):
-#   pip install sentence-transformers transformers
-#   (nicht im Standardlauf benötigt; torch ist bereits unten enthalten)
 
-# --- Wissenschaftlicher Stack ---
+# --- Scientific stack ---
 numpy==2.2.1
 pandas==3.0.2
 scikit-learn==1.6.0
 joblib==1.4.2
 
-# --- Visualisierung ---
+# --- Visualization ---
 matplotlib==3.10.3
 seaborn==0.13.2
 
-# --- ML-Modelle ---
+# --- ML models ---
 xgboost==3.2.0
 interpret==0.7.8          # ExplainableBoostingRegressor (EBM)
 
-# --- Erklärbarkeit ---
+# --- Explainability ---
 shap==0.51.0
 
-# --- LLM / Anthropic API ---
+# --- LLM APIs (generation and Anthropic judge, OpenAI cross-vendor judge) ---
 anthropic==0.98.1
+openai==2.37.0
 python-dotenv==1.2.2
 
 # --- Jupyter ---
@@ -33,8 +30,5 @@ jupyter==1.1.1
 notebook==7.5.1
 ipykernel==6.29.5
 
-# --- Deep Learning (Notebook 08) ---
-torch==2.8.0
-
-# --- Testing / CI ---
+# --- Testing ---
 pytest>=8.0
