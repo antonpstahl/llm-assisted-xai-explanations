@@ -16,19 +16,31 @@ Recipe: ``random.seed(42)``; each iteration, per cell in scope pick one draw
 with ``random.choice`` over the cell's **sorted** gen list, average per format,
 rank. Ties are reported explicitly (any two means equal ⇒ ``ties``); the strict
 ``first_place`` / ``last_place`` shares count iterations where all three means
-differ. The stable-sort shares (``first_place_stable``) reproduce the paper's
-run-1 numbers, which are computed with ``sorted([json, vision, tooluse],
-key=-mean)`` so ties go to the earlier index.
+differ. The stable-sort shares (``first_place_stable``, ``last_place_stable``)
+break ties by list order (``sorted([json, vision, tooluse], key=-mean)``, ties
+go to the earlier index). Run 1 reported those. The paper now reports strict
+shares with ties counted separately, plus ``last_place_stable`` for "json
+strictly below both other formats".
 
-Paper check values (run 1, from Appendix F):
-  ``--variant 24``  ties ≈ 0.34; modal-ordering share 0.449; mean spread 0.448;
+Paper check values (run 2, as reported in Section 5.4 and Appendix F):
+  ``--variant 24``  ties 0.373, first_place_strict {vision 0.336, tooluse 0.245,
+                    json 0.046}, i.e. 54 / 39 / 7 % of untied iterations,
+                    mean spread 0.409.
+  ``--variant 18``  ties 0.223, first_place_strict {vision 0.591, tooluse 0.183,
+                    json 0.003}, last_place_stable json 0.895, pairwise
+                    vision > tooluse 0.658 and tooluse > vision 0.192,
+                    per-format SD 0.079 to 0.099.
+Both variants reproduce these values exactly. The outputs are stored in
+``analyses/ledger_run2/mc24.json`` and ``analyses/ledger_run2/mc18.json``.
+
+Historical run-1 values, before the scratchpad and plot-title fix described in
+``analyses/README.md`` (stored in ``analyses/ledger_run1/``, superseded):
+  ``--variant 24``  ties about 0.34, modal-ordering share 0.449, mean spread 0.448,
                     first_place_stable shape {0.672, 0.234, 0.095}.
-  ``--variant 18``  first_place_strict = {tooluse 0.589, vision 0.130, json 0.009};
-                    ties 0.272; last_place_stable {json 0.776, …};
-                    pairwise tooluse > vision 0.704, vision > tooluse 0.149;
-                    per-format SD in 0.074–0.099.
-Both variants reproduce the paper's Appendix F run-1 values exactly; after the
-rerun they are expected to change.
+  ``--variant 18``  first_place_strict {tooluse 0.589, vision 0.130, json 0.009},
+                    ties 0.272, last_place_stable json 0.776, pairwise
+                    tooluse > vision 0.704 and vision > tooluse 0.149,
+                    per-format SD 0.074 to 0.099.
 
 Excludes the documented truncated draw ``json_xgb_weekday_gen1``.
 """
